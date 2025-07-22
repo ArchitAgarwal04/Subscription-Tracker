@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import { PORT } from './config/env.js';
 
@@ -12,6 +13,16 @@ import arcjetMiddleware from './middlewares/arcjet.middleware.js'
 import workflowRouter from './routes/workflow.routes.js'
 
 const app = express();
+
+// CORS setup for both local dev and production frontend
+const allowedOrigins = [
+  'http://localhost:8080', // local frontend dev
+  'https://subscription-tracker-1-shhh.onrender.com' // deployed backend (for API calls)
+];
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
